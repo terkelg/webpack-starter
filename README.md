@@ -6,27 +6,27 @@ JavaScript is transpiled with Babel, CSS is postprocessed by PostCSS and CSSNext
 
 ## Getting started
 
-```npm install```
+```$ npm install```
 
 ### Start dev server
 
-```npm start```
+```$ npm start```
 
 ### Build
 
-```npm run build```
+```$ npm run build```
 
 ## Features
 
-- Tree Shaking
-- postCSS + autoprefix
+- Tree-shaking
+- postCSS + AutoPrefix
 - ES2015 with Babel
 - Source maps
-- GLSLIFY
-- Webpack 2 with Webpack-dev-server
+- glslify
+- Webpack 2 with webpack-dev-server
 
 ## Dev server
-```http://localhost:8000/webpack-dev-server```
+``` http://localhost:8000/webpack-dev-server ```
 
 
 ## License
