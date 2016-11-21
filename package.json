@@ -33,9 +33,7 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^2.1.0-beta.25",
-    "webpack-dev-server": "^2.1.0-beta.10"
-  },
-  "dependencies": {
+    "webpack-dev-server": "^2.1.0-beta.10",
     "babel-plugin-glslify": "^2.0.0",
     "glslify": "^6.0.1"
   }
