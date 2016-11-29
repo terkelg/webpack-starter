@@ -51,7 +51,7 @@ function getPlugins ({debug, minify}) {
 
   /**
    * Consider plugins such as webpack.optimize.AggressiveMergingPlugin
-   * and CommonsChunkPlugin with when using big third-party libaries
+   * and CommonsChunkPlugin when using big third-party libaries.
    */
 
   return plugins
