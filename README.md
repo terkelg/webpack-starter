@@ -1,7 +1,7 @@
 # Webpack 2 Starter
 > 'Just Add Water' Webpack 2, Babel & glslify gourmet mix.
 
-Simple Webpack 2 boilerplate for web development with ES2015. It's kept as simple as possible.
+Simple Webpack 2 boilerplate for web development with ES2015.
 JavaScript is transpiled with Babel, CSS is postprocessed by PostCSS and CSSNext. 
 
 ## Getting started
