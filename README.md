@@ -15,15 +15,15 @@
 
 ## Features
 
-- Tree-shaking
+- tree-shaking
 - SCSS + postCSS + AutoPrefix
-- Babel
-- Source maps
-- Code-splitting
+- babel
+- source maps
+- code-splitting
 - glslify
 - uglify
 - webpack-dev-server
-- Webpack 2 with webpack-dev-server
+- webpack 2
 
 ## Dev server
 ``` http://localhost:8000/webpack-dev-server ```
