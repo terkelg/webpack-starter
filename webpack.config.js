@@ -1,5 +1,5 @@
-const path = require('path')
 const webpack = require('webpack')
+const {resolve} = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const cssnext = require('postcss-cssnext')
@@ -14,7 +14,7 @@ function getPlugins ({debug, minify}) {
       'process.env.NODE_ENV': JSON.stringify(minify ? 'production' : 'development')
     }),
     new webpack.LoaderOptionsPlugin({
-      debug,
+      debug: false,
       minimize: minify,
       options: {
         context: __dirname,
@@ -33,6 +33,7 @@ function getPlugins ({debug, minify}) {
       new webpack.optimize.UglifyJsPlugin({
         sourceMap: true,
         compress: {
+          screw_ie8: true,
           warnings: false
         },
         output: {
@@ -42,17 +43,26 @@ function getPlugins ({debug, minify}) {
     )
   }
 
+  /* uncomment if using mutiple entry points
+  if (minify) {
+    plugins.push(
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor'
+      })
+    )
+  }
+  */
+
   plugins.push(
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: path.join(__dirname, 'src/index.html')
+      template: resolve(__dirname, 'src/index.html'),
+      minify: minify ? {
+        removeComments: true,
+        collapseWhitespace: true
+      } : false
     })
   )
-
-  /**
-   * Consider plugins such as webpack.optimize.AggressiveMergingPlugin
-   * and CommonsChunkPlugin when using big third-party libaries.
-   */
 
   return plugins
 }
@@ -66,66 +76,26 @@ function getPlugins ({debug, minify}) {
 module.exports = ({debug = false, minify = false} = {}) => ({
   target: 'web',
   devtool: 'source-map',
-  entry: './src/main.js',
+  entry: './src/app.js',
   output: {
     publicPath: '',
-    filename: 'main.min.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: 'bundle.[chunkhash].js',
+    path: resolve(__dirname, 'dist')
   },
   plugins: getPlugins({debug, minify}),
   module: {
     loaders: [
-
-      {
-        test: /\.js$/,
-        include: [
-          path.resolve(__dirname, 'src')
-        ],
-        loader: 'babel-loader'
-      },
-
-      {
-        test: /\.css$/,
+      {test: /\.js$/, include: /src/, loader: 'babel-loader'},
+      {test: /\.css|\.scss$/,
         loader: ExtractTextPlugin.extract({
           fallbackLoader: 'style-loader',
-          loader: [
-            {
-              loader: 'css-loader',
-              query: {
-                modules: true
-              }
-            },
-            'postcss-loader'
-          ]
+          loader: 'css-loader?sourceMap!postcss-loader!sass-loader?sourceMap'
         })
       },
-
-      {
-        test: /\.(jpg|png|gif|svg)$/,
-        loader: [
-          {
-            loader: 'url-loader',
-            query: {
-              limit: 2000,
-              name: 'assets/[name].[ext]'
-            }
-          }
-        ]
-      },
-
-      {
-        test: /\.(ico|woff)$/,
-        loader: [
-          {
-            loader: 'url-loader',
-            query: {
-              limit: 1,
-              name: 'assets/[name].[ext]'
-            }
-          }
-        ]
-      }
-
+      {test: /\.svg(\?v=\d+.\d+.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml&name=assets/[name].[ext]'},
+      {test: /\.(jpe?g|png|gif|svg)$/, loader: 'url-loader?limit=2000&name=assets/[name].[ext]'},
+      {test: /\.(ico|woff)$/, loader: 'url-loader?limit=1&name=assets/[name].[ext]'},
+      {test: /\.json$/, loader: 'json-loader'}
     ]
   }
 })
